@@ -2,11 +2,12 @@
 
 namespace Weblab\RESTClient\Adapters;
 
-use Weblab\RESTClient\Exceptions\OAuthException;
-use Weblab\RESTClient\Tests\TestCase;
+use PHPUnit\Framework\Attributes\RunInSeparateProcess;
 use Weblab\CURL\CURL;
 use Weblab\CURL\Request;
 use Weblab\CURL\Result;
+use Weblab\RESTClient\Exceptions\OAuthException;
+use Weblab\RESTClient\Tests\TestCase;
 
 /**
  * Class OAuthTest
@@ -14,9 +15,7 @@ use Weblab\CURL\Result;
  */
 class OAuthTest extends TestCase {
 
-    /**
-     * @runInSeparateProcess
-     */
+    #[RunInSeparateProcess]
     public function testDoRequestSuccess() {
         // set the expected result
         $expectedResult = $this->getMockBuilder(Result::class)
@@ -81,9 +80,7 @@ class OAuthTest extends TestCase {
         $this->assertEquals($expectedResult, $result);
     }
 
-    /**
-     * @runInSeparateProcess
-     */
+    #[RunInSeparateProcess]
     public function testDoRequestNoAccessToken() {
         // set the mock Result object
         $postResult = $this->getMockBuilder(Result::class)
