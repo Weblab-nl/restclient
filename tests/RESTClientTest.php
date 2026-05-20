@@ -2,17 +2,21 @@
 
 namespace Weblab\RESTClient;
 
-use Weblab\RESTClient\Tests\TestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
+use Prophecy\PhpUnit\ProphecyTrait;
 use Weblab\CURL\Result;
 use Weblab\RESTClient\Adapters\AdapterInterface;
 use Weblab\RESTClient\Exceptions\NoAdapterException;
 use Weblab\RESTClient\Exceptions\ResponseHandlerNotFoundException;
+use Weblab\RESTClient\Tests\TestCase;
 
 /**
  * Class RESTClientTest
  * @author Weblab.nl - Eelco Verbeek
  */
 class RESTClientTest extends TestCase {
+
+    use ProphecyTrait;
 
     public function testGetNoAdapterException() {
         $this->expectException(NoAdapterException::class);
@@ -39,9 +43,7 @@ class RESTClientTest extends TestCase {
         $client->get('/users');
     }
 
-    /**
-     * @dataProvider getSuccessProvider
-     */
+    #[DataProvider('getSuccessProvider')]
     public function testGetSuccess($baseURL, $url, $expectedURL, $params, $status) {
         $adapter = $this->prophesize(AdapterInterface::class);
 
@@ -59,7 +61,7 @@ class RESTClientTest extends TestCase {
         $this->assertEquals($expectedResult, $result);
     }
 
-    public function getSuccessProvider() {
+    public static function getSuccessProvider() {
         return [
             ['api.com/', '/users/1', 'api.com/users/1', ['test' => 'test'], 200],
             ['api.com', '/users/1', 'api.com/users/1', ['test' => 'test'], 403],
